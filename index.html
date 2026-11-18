@@ -8,106 +8,148 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             background-color: #f9f9f9;
+            color: #333;
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .header img {
-            max-height: 80px;
+            max-height: 75px;
+            max-width: 100%;
             margin-bottom: 10px;
         }
         .header h1 {
-            margin: 0;
-            font-size: 24px;
+            margin: 0 0 12px 0;
+            font-size: 22px;
             color: #333;
         }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
         select {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        /* Desplegable de ciudad resaltado */
+        #citySelect {
+            background-color: #d32f2f;
+            color: white;
+            border: 2px solid #9a0007;
+        }
+        #citySelect option {
+            background-color: white;
+            color: #333;
+        }
+        /* Desplegable de mes */
+        #monthSelect {
+            background-color: #333;
+            color: white;
+            border: 2px solid #111;
+        }
+        #monthSelect option {
+            background-color: white;
+            color: #333;
         }
         .container {
-            display: flex;
-            gap: 20px;
-            max-width: 1400px;
+            max-width: 700px;
             margin: 0 auto;
-        }
-        .calendar-section {
-            flex: 3;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        .sidebar {
-            flex: 1;
-            min-width: 300px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
-        .sidebar img {
-            width: 100%;
+        .legend {
+            background: white;
+            padding: 12px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 15px;
+            justify-content: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 20px;
+            font-size: 11px;
+            border-radius: 3px;
+        }
+        .calendar-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
         .month-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
         .month-table th {
             background-color: #eee;
             text-align: center;
-            padding: 8px 4px;
+            padding: 10px 4px;
             border: 1px solid #ddd;
             font-size: 14px;
         }
         .month-name {
             background-color: #d32f2f !important;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .month-table td {
             border: 1px solid #ddd;
             text-align: center;
-            padding: 6px 4px;
-            font-size: 14px;
+            padding: 12px 4px;
+            font-size: 16px;
             width: 12.5%;
         }
         /* Colores específicos según los requisitos */
         .week-number { background-color: black; color: white !important; font-weight: bold; }
-        .payday { background-color: #007bff; color: white !important; }
-        .local { background-color: purple; color: white !important; }
-        .regional { background-color: red; color: white !important; }
+        .payday { background-color: #007bff; color: white !important; font-weight: bold; }
+        .local { background-color: purple; color: white !important; font-weight: bold; }
+        .regional { background-color: red; color: white !important; font-weight: bold; }
         .company { background-color: #d4af37; color: black !important; font-weight: bold; }
         .intensive { background-color: #e0e0e0; color: black; }
         .national { color: red; font-weight: bold; }
         .sunday { color: red; font-weight: bold; }
-        
-        .legend {
-            margin-top: 30px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            grid-column: 1 / -1;
+
+        /* Sección inferior de información útil y QRs */
+        .bottom-info {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
             gap: 15px;
-            justify-content: center;
+            margin-top: 5px;
         }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        .legend-box { width: 20px; height: 20px; border: 1px solid #ccc; text-align:center; line-height:20px; font-size:12px; }
-        
-        @media (max-width: 1024px) {
-            .container { flex-direction: column; }
+        .bottom-info img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -115,7 +157,8 @@
 
 <div class="header">
     <img src="LOGO CCOO VF Servi Ciudadania.png" alt="Logo CCOO Servicios a la ciudadanía">
-    <h1>CALENDARIO LABORAL 
+    <h1>CALENDARIO LABORAL 2027</h1>
+    <div class="controls">
         <select id="citySelect" onchange="renderCalendar()">
             <option value="MAD">MAD (Madrid)</option>
             <option value="BAR">BAR (Barcelona)</option>
@@ -134,18 +177,47 @@
             <option value="Z">Z (Zaragoza)</option>
             <option value="ASTURIAS">ASTURIAS</option>
             <option value="NAL">NAL (Nacional)</option>
-        </select> 
-    2027</h1>
+        </select>
+
+        <select id="monthSelect" onchange="renderCalendar()">
+            <option value="0">Enero</option>
+            <option value="1">Febrero</option>
+            <option value="2">Marzo</option>
+            <option value="3">Abril</option>
+            <option value="4">Mayo</option>
+            <option value="5">Junio</option>
+            <option value="6">Julio</option>
+            <option value="7">Agosto</option>
+            <option value="8">Septiembre</option>
+            <option value="9">Octubre</option>
+            <option value="10">Noviembre</option>
+            <option value="11">Diciembre</option>
+            <option value="all">Ver año completo</option>
+        </select>
+    </div>
 </div>
 
 <div class="container">
+    <!-- Leyenda arriba, justo antes del calendario -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-box week-number">Sm</div> Número Semana</div>
+        <div class="legend-item"><div class="legend-box payday">N</div> Cobro Nómina</div>
+        <div class="legend-item"><div class="legend-box national" style="border:none">3</div> Domingo/Nacional</div>
+        <div class="legend-item"><div class="legend-box local">L</div> Festivo Local</div>
+        <div class="legend-item"><div class="legend-box regional">A</div> Festivo Autonómico</div>
+        <div class="legend-item"><div class="legend-box company">C</div> Festivo Empresa (24 y 31 Dic)</div>
+        <div class="legend-item"><div class="legend-box intensive">I</div> Jornada Intensiva</div>
+    </div>
+
+    <!-- Calendario del lugar y mes elegido -->
     <div class="calendar-section" id="calendar-container">
         <!-- El calendario se inyecta por JS -->
     </div>
     
-    <div class="sidebar">
-        <img src="QRs Calendario.png" alt="Códigos QR">
+    <!-- Información útil y QRs debajo del calendario -->
+    <div class="bottom-info">
         <img src="Info Util.png" alt="Información Útil Convenio">
+        <img src="QRs Calendario.png" alt="Códigos QR">
     </div>
 </div>
 
@@ -185,16 +257,18 @@ function getISOWeek(date) {
 
 function renderCalendar() {
     const city = document.getElementById('citySelect').value;
+    const monthVal = document.getElementById('monthSelect').value;
     const container = document.getElementById('calendar-container');
     container.innerHTML = '';
     
     const hData = db.holidays[city];
+    const monthsToRender = (monthVal === 'all') ? [0,1,2,3,4,5,6,7,8,9,10,11] : [parseInt(monthVal)];
     
-    for (let month = 0; month < 12; month++) {
+    monthsToRender.forEach(month => {
         const table = document.createElement('table');
         table.className = 'month-table';
         
-        let html = `<tr><th colspan="8" class="month-name">${monthNames[month]}</th></tr>
+        let html = `<tr><th colspan="8" class="month-name">${monthNames[month]} 2027</th></tr>
                     <tr><th>Sm</th><th>L</th><th>M</th><th>X</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>`;
         
         let date = new Date(2027, month, 1);
@@ -210,14 +284,12 @@ function renderCalendar() {
             
             let classes = [];
             
-            // Evaluamos la jerarquía de condiciones
             const isCompany = (dayStr === "12-24" || dayStr === "12-31");
             const isPayday = db.paydays.includes(dayStr);
             const isLocal = hData.locales.includes(dayStr);
             const isRegional = hData.autonomicos.includes(dayStr);
             const isNational = hData.nacionales.includes(dayStr);
             
-            // Jornada intensiva (Julio y Agosto completos + Navidad específicos)
             const isIntensiveDate = (month === 6 || month === 7 || (month === 0 && (date.getDate() === 4 || date.getDate() === 5)) || (month === 11 && date.getDate() >= 27 && date.getDate() <= 30));
             
             if (isNational || isSunday) classes.push('national');
@@ -251,7 +323,7 @@ function renderCalendar() {
         }
         
         if (currentWeekHtml !== '') {
-            while (date.getDay() !== 1) { // Rellenar días finales
+            while (date.getDay() !== 1) {
                 currentWeekHtml += `<td></td>`;
                 date.setDate(date.getDate() + 1);
             }
@@ -260,20 +332,7 @@ function renderCalendar() {
         
         table.innerHTML = html;
         container.appendChild(table);
-    }
-    
-    // Leyenda
-    container.innerHTML += `
-        <div class="legend">
-            <div class="legend-item"><div class="legend-box week-number">Sm</div> Número Semana</div>
-            <div class="legend-item"><div class="legend-box payday">N</div> Cobro Nómina</div>
-            <div class="legend-item"><div class="legend-box national" style="border:none">3</div> Domingo/Nacional</div>
-            <div class="legend-item"><div class="legend-box local">L</div> Festivo Local</div>
-            <div class="legend-item"><div class="legend-box regional">A</div> Festivo Autonómico</div>
-            <div class="legend-item"><div class="legend-box company">C</div> Festivo Empresa (24 y 31 Dic)</div>
-            <div class="legend-item"><div class="legend-box intensive">I</div> Jornada Intensiva</div>
-        </div>
-    `;
+    });
 }
 
 window.onload = renderCalendar;
