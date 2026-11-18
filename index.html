@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Laboral 2027</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-height: 80px;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        select {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .calendar-section {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .sidebar {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .sidebar img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .month-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .month-table th {
+            background-color: #eee;
+            text-align: center;
+            padding: 8px 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .month-name {
+            background-color: #d32f2f !important;
+            color: white;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        .month-table td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 6px 4px;
+            font-size: 14px;
+            width: 12.5%;
+        }
+        /* Colores específicos según los requisitos */
+        .week-number { background-color: black; color: white !important; font-weight: bold; }
+        .payday { background-color: #007bff; color: white !important; }
+        .local { background-color: purple; color: white !important; }
+        .regional { background-color: red; color: white !important; }
+        .company { background-color: #d4af37; color: black !important; font-weight: bold; }
+        .intensive { background-color: #e0e0e0; color: black; }
+        .national { color: red; font-weight: bold; }
+        .sunday { color: red; font-weight: bold; }
+        
+        .legend {
+            margin-top: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .legend-box { width: 20px; height: 20px; border: 1px solid #ccc; text-align:center; line-height:20px; font-size:12px; }
+        
+        @media (max-width: 1024px) {
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="LOGO CCOO VF Servi Ciudadania.png" alt="Logo CCOO Servicios a la ciudadanía">
+    <h1>CALENDARIO LABORAL 
+        <select id="citySelect" onchange="renderCalendar()">
+            <option value="MAD">MAD (Madrid)</option>
+            <option value="BAR">BAR (Barcelona)</option>
+            <option value="GI">GI (Girona)</option>
+            <option value="VAL">VAL (Valencia)</option>
+            <option value="ALI">ALI (Alicante)</option>
+            <option value="SEV">SEV (Sevilla)</option>
+            <option value="MAL">MAL (Málaga)</option>
+            <option value="VIG">VIG (Vigo)</option>
+            <option value="A CO">A CO (A Coruña)</option>
+            <option value="LP">LP (Las Palmas)</option>
+            <option value="TF">TF (Tenerife)</option>
+            <option value="VALL">VALL (Valladolid)</option>
+            <option value="CA">CA (Cádiz)</option>
+            <option value="BI">BI (Bilbao)</option>
+            <option value="Z">Z (Zaragoza)</option>
+            <option value="ASTURIAS">ASTURIAS</option>
+            <option value="NAL">NAL (Nacional)</option>
+        </select> 
+    2027</h1>
+</div>
+
+<div class="container">
+    <div class="calendar-section" id="calendar-container">
+        <!-- El calendario se inyecta por JS -->
+    </div>
+    
+    <div class="sidebar">
+        <img src="QRs Calendario.png" alt="Códigos QR">
+        <img src="Info Util.png" alt="Información Útil Convenio">
+    </div>
+</div>
+
+<script>
+const db = {
+  holidays: {
+    "MAD": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["05-15", "11-09"], autonomicos: ["01-06", "03-19", "03-25", "08-16"] },
+    "BAR": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["05-17", "09-24"], autonomicos: ["01-06", "03-29", "06-24", "09-11"] },
+    "VAL": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["01-22", "04-05"], autonomicos: ["01-06", "03-19", "03-29", "10-09"] },
+    "ALI": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["04-08", "06-24"], autonomicos: ["01-06", "03-19", "03-29", "10-09"] },
+    "A CO": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["02-09", "06-24"], autonomicos: ["01-06", "03-19", "03-25", "05-17"] },
+    "GI": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["07-24", "10-29"], autonomicos: ["01-06", "03-29", "06-24", "09-11"] },
+    "NAL": { nacionales: ["01-01", "01-06", "03-26", "05-01", "08-15", "10-12", "12-08", "12-25"], locales: [], autonomicos: [] },
+    "SEV": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["04-14", "05-27"], autonomicos: ["01-06", "03-01", "03-25", "08-16"] },
+    "MAL": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["08-19", "09-08"], autonomicos: ["01-06", "03-01", "03-25", "08-16"] },
+    "VIG": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["03-29", "08-16"], autonomicos: ["01-06", "03-19", "03-25", "05-17"] },
+    "LP": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["02-09", "06-24"], autonomicos: ["01-06", "09-08", "03-25", "08-16"] },
+    "TF": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["02-23", "05-03"], autonomicos: ["01-06", "02-02", "03-25", "08-16"] },
+    "VALL": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["05-13", "09-08"], autonomicos: ["01-06", "03-25", "04-23", "08-16"] },
+    "CA": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["02-05", "10-07"], autonomicos: ["01-06", "03-01", "03-25", "08-16"] },
+    "BI": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["07-31", "08-27"], autonomicos: ["01-06", "03-25", "03-29", "10-07"] },
+    "Z": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["01-29", "03-05"], autonomicos: ["01-06", "03-25", "04-23", "08-16"] },
+    "ASTURIAS": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["05-18", "09-21"], autonomicos: ["01-06", "03-25", "04-23", "08-16"] }
+  },
+  paydays: ["01-27", "02-24", "03-24", "04-28", "05-27", "06-25", "07-28", "08-27", "09-28", "10-27", "11-26", "12-22"]
+};
+
+const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+function getISOWeek(date) {
+    const dt = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = dt.getUTCDay() || 7;
+    dt.setUTCDate(dt.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+    return Math.ceil((((dt - yearStart) / 86400000) + 1)/7);
+}
+
+function renderCalendar() {
+    const city = document.getElementById('citySelect').value;
+    const container = document.getElementById('calendar-container');
+    container.innerHTML = '';
+    
+    const hData = db.holidays[city];
+    
+    for (let month = 0; month < 12; month++) {
+        const table = document.createElement('table');
+        table.className = 'month-table';
+        
+        let html = `<tr><th colspan="8" class="month-name">${monthNames[month]}</th></tr>
+                    <tr><th>Sm</th><th>L</th><th>M</th><th>X</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>`;
+        
+        let date = new Date(2027, month, 1);
+        let firstDay = date.getDay() === 0 ? 7 : date.getDay();
+        
+        let currentWeekHtml = `<tr><td class="week-number">${getISOWeek(date)}</td>`;
+        for (let i = 1; i < firstDay; i++) currentWeekHtml += `<td></td>`;
+        
+        while (date.getMonth() === month) {
+            const dayStr = `0${month+1}`.slice(-2) + '-' + `0${date.getDate()}`.slice(-2);
+            const isSunday = date.getDay() === 0;
+            const isSaturday = date.getDay() === 6;
+            
+            let classes = [];
+            
+            // Evaluamos la jerarquía de condiciones
+            const isCompany = (dayStr === "12-24" || dayStr === "12-31");
+            const isPayday = db.paydays.includes(dayStr);
+            const isLocal = hData.locales.includes(dayStr);
+            const isRegional = hData.autonomicos.includes(dayStr);
+            const isNational = hData.nacionales.includes(dayStr);
+            
+            // Jornada intensiva (Julio y Agosto completos + Navidad específicos)
+            const isIntensiveDate = (month === 6 || month === 7 || (month === 0 && (date.getDate() === 4 || date.getDate() === 5)) || (month === 11 && date.getDate() >= 27 && date.getDate() <= 30));
+            
+            if (isNational || isSunday) classes.push('national');
+            
+            if (isCompany) {
+                classes.push('company');
+            } else if (isPayday) {
+                classes.push('payday');
+            } else if (isLocal) {
+                classes.push('local');
+            } else if (isRegional) {
+                classes.push('regional');
+            } else if (isIntensiveDate && !isSaturday && !isSunday && !isNational && !isLocal && !isRegional) {
+                classes.push('intensive');
+            }
+
+            currentWeekHtml += `<td class="${classes.join(' ')}">${date.getDate()}</td>`;
+            
+            if (date.getDay() === 0) {
+                currentWeekHtml += `</tr>`;
+                html += currentWeekHtml;
+                date.setDate(date.getDate() + 1);
+                if (date.getMonth() === month) {
+                    currentWeekHtml = `<tr><td class="week-number">${getISOWeek(date)}</td>`;
+                } else {
+                    currentWeekHtml = '';
+                }
+            } else {
+                date.setDate(date.getDate() + 1);
+            }
+        }
+        
+        if (currentWeekHtml !== '') {
+            while (date.getDay() !== 1) { // Rellenar días finales
+                currentWeekHtml += `<td></td>`;
+                date.setDate(date.getDate() + 1);
+            }
+            html += currentWeekHtml + `</tr>`;
+        }
+        
+        table.innerHTML = html;
+        container.appendChild(table);
+    }
+    
+    // Leyenda
+    container.innerHTML += `
+        <div class="legend">
+            <div class="legend-item"><div class="legend-box week-number">Sm</div> Número Semana</div>
+            <div class="legend-item"><div class="legend-box payday">N</div> Cobro Nómina</div>
+            <div class="legend-item"><div class="legend-box national" style="border:none">3</div> Domingo/Nacional</div>
+            <div class="legend-item"><div class="legend-box local">L</div> Festivo Local</div>
+            <div class="legend-item"><div class="legend-box regional">A</div> Festivo Autonómico</div>
+            <div class="legend-item"><div class="legend-box company">C</div> Festivo Empresa (24 y 31 Dic)</div>
+            <div class="legend-item"><div class="legend-box intensive">I</div> Jornada Intensiva</div>
+        </div>
+    `;
+}
+
+window.onload = renderCalendar;
+</script>
+</body>
+</html>
