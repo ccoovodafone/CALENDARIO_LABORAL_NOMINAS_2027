@@ -68,6 +68,34 @@
             flex-direction: column;
             gap: 20px;
         }
+        /* Caja de descarga del archivo .ics */
+        .ics-download-box {
+            background: white;
+            padding: 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 5px solid #0078d4;
+        }
+        .ics-btn {
+            display: inline-block;
+            background-color: #0078d4;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .ics-btn:hover {
+            background-color: #005a9e;
+        }
+        .ics-help {
+            margin: 8px 0 0 0;
+            font-size: 12px;
+            color: #555;
+        }
         .legend {
             background: white;
             padding: 12px;
@@ -198,6 +226,14 @@
 </div>
 
 <div class="container">
+    <!-- Descarga del archivo .ics correspondiente a la ciudad elegida -->
+    <div class="ics-download-box">
+        <a id="icsDownloadLink" class="ics-btn" href="Calendario_Laboral_2027_MAD_Madrid.ics" download>
+            📅 Descargar calendario 2027 para Outlook (Madrid)
+        </a>
+        <p class="ics-help">Descarga el archivo .ics para abrirlo como nuevo calendario o integrarlo en tu Outlook.</p>
+    </div>
+
     <!-- Leyenda arriba, justo antes del calendario -->
     <div class="legend">
         <div class="legend-item"><div class="legend-box week-number">Sm</div> Número Semana</div>
@@ -222,6 +258,26 @@
 </div>
 
 <script>
+const icsFiles = {
+    "MAD": { file: "Calendario_Laboral_2027_MAD_Madrid.ics", label: "Madrid" },
+    "BAR": { file: "Calendario_Laboral_2027_BAR_Barcelona.ics", label: "Barcelona" },
+    "GI": { file: "Calendario_Laboral_2027_GI_Girona.ics", label: "Girona" },
+    "VAL": { file: "Calendario_Laboral_2027_VAL_Valencia.ics", label: "Valencia" },
+    "ALI": { file: "Calendario_Laboral_2027_ALI_Alicante.ics", label: "Alicante" },
+    "SEV": { file: "Calendario_Laboral_2027_SEV_Sevilla.ics", label: "Sevilla" },
+    "MAL": { file: "Calendario_Laboral_2027_MAL_Malaga.ics", label: "Málaga" },
+    "VIG": { file: "Calendario_Laboral_2027_VIG_Vigo.ics", label: "Vigo" },
+    "A CO": { file: "Calendario_Laboral_2027_A_CO_A_Coruna.ics", label: "A Coruña" },
+    "LP": { file: "Calendario_Laboral_2027_LP_Las_Palmas.ics", label: "Las Palmas" },
+    "TF": { file: "Calendario_Laboral_2027_TF_Tenerife.ics", label: "Tenerife" },
+    "VALL": { file: "Calendario_Laboral_2027_VALL_Valladolid.ics", label: "Valladolid" },
+    "CA": { file: "Calendario_Laboral_2027_CA_Cadiz.ics", label: "Cádiz" },
+    "BI": { file: "Calendario_Laboral_2027_BI_Bilbao.ics", label: "Bilbao" },
+    "Z": { file: "Calendario_Laboral_2027_Z_Zaragoza.ics", label: "Zaragoza" },
+    "ASTURIAS": { file: "Calendario_Laboral_2027_ASTURIAS_Asturias.ics", label: "Asturias" },
+    "NAL": { file: "Calendario_Laboral_2027_NAL_Nacional.ics", label: "Nacional" }
+};
+
 const db = {
   holidays: {
     "MAD": { nacionales: ["01-01", "03-26", "05-01", "10-12", "11-01", "12-06", "12-08", "12-25"], locales: ["05-15", "11-09"], autonomicos: ["01-06", "03-19", "03-25", "08-16"] },
@@ -260,6 +316,15 @@ function renderCalendar() {
     const monthVal = document.getElementById('monthSelect').value;
     const container = document.getElementById('calendar-container');
     container.innerHTML = '';
+
+    // Actualizar enlace de descarga del .ics
+    const icsLink = document.getElementById('icsDownloadLink');
+    const icsInfo = icsFiles[city];
+    if (icsInfo) {
+        icsLink.href = icsInfo.file;
+        icsLink.setAttribute('download', icsInfo.file);
+        icsLink.textContent = `📅 Descargar calendario 2027 para Outlook (${icsInfo.label})`;
+    }
     
     const hData = db.holidays[city];
     const monthsToRender = (monthVal === 'all') ? [0,1,2,3,4,5,6,7,8,9,10,11] : [parseInt(monthVal)];
